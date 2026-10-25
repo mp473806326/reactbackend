@@ -1,0 +1,18 @@
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  font-weight: 700;
+  font-size: 18px;
+  text-wrap: nowrap;
+  color: var(--theme-logo-color);
+  background-color: var(--theme-backgroundColor);
+  border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
+}
+
+.menu {
+  background-color: var(--theme-backgroundColor);
+}
