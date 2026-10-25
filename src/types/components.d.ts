@@ -48,7 +48,7 @@ declare type TableSearchs = {
     | "timeRange"
     | "datetimeRange"
     | "switch";
-  defaultValue?: any;
+  defaultValue?: unknown;
   isHiden?: boolean;
   /* type = "number" */
   min?: number;

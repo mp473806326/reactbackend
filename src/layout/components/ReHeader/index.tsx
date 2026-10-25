@@ -77,17 +77,19 @@ function handleLogout() {
   });
 }
 
+type BreadcrumbItem = { title: React.ReactNode };
+
 // 递归获取面包屑文本
-function extractLabels(obj: any, key: string) {
+function extractLabels(obj: AnyObjectType, key: string) {
   // 初始化结果数组
-  var labels: any = [];
+  let labels: BreadcrumbItem[] = [];
   // 如果对象有标签信息 label，则将其添加到结果数组中
   if (obj.label) {
     labels.push({ title: obj.label });
   }
   // 如果对象有子数组 children，则递归遍历 children
   if (Array.isArray(obj.children)) {
-    obj.children.forEach((child: any) => {
+    obj.children.forEach((child: AnyObjectType) => {
       if (child.key === key) {
         // 递归调用 extractLabels 函数，并将结果合并到 labels 数组中
         labels = labels.concat(extractLabels(child, key));
@@ -100,7 +102,7 @@ function extractLabels(obj: any, key: string) {
 
 export default function ReHeader({ menuTree, collapsed, onCollapse }: ReHeaderProps) {
   const { pathname } = useLocation();
-  const [breadcrumbs, setBreadcrumds] = useState([]);
+  const [breadcrumbs, setBreadcrumds] = useState<BreadcrumbItem[]>([]);
 
   // 获取用户信息
   const userInfo = useUserInfoStore(state => state.userInfo);
@@ -108,7 +110,7 @@ export default function ReHeader({ menuTree, collapsed, onCollapse }: ReHeaderPr
   useEffect(() => {
     const res = findParentNode(pathname, menuTree);
     setBreadcrumds(extractLabels(res, pathname));
-  }, [pathname]);
+  }, [pathname, menuTree]);
 
   return (
     <Header className={styles.header}>

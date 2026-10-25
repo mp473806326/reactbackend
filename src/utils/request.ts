@@ -1,7 +1,6 @@
 import axios, { type AxiosInstance } from "axios";
 import { AdMessage } from "@/utils/AntdGlobal";
 import { Local } from "@/utils/storage";
-import { formatErrMsg } from "@/utils/common";
 
 // 白名单，不需要 token 的接口
 const whiteList = [
@@ -30,7 +29,6 @@ service.interceptors.request.use(
   // 在发送请求之前做些什么
   config => {
     if (config.url && !whiteList.includes(config.url)) {
-
       if (Local.has("token")) {
         config.headers.Authorization = `Bearer ${Local.get("token")}`;
       } else {
@@ -50,7 +48,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // 在 2xx 范围内的状态码都会触发该函数
   async response => {
-    const { config, data } = response;
+    const { data } = response;
     // if (config.url !== "/api/token/refresh/" && data.code && data.code !== 200) {
     // 	if (data.msg && data.msg.code === "token_not_valid") {
     // 		const { refresh, msg } = await resetToken(); // token 过期，需要重新获取
@@ -63,7 +61,7 @@ service.interceptors.response.use(
     // 		AdMessage.error(formatErrMsg(data.msg));
     // 	}
     // }
-    if(data.code===500){
+    if (data.code === 500) {
       AdMessage.error(data.msg);
       return Promise.reject(data.msg);
     }

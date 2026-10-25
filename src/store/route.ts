@@ -19,7 +19,6 @@ export const useRouteStore = create<RouteStore>((set, get) => ({
       try {
         const { code, data } = await getBackendRoute();
         if (code !== 200) throw new Error();
-        console.log('data',data)
         set({ pageRoutes: data });
       } catch (error) {
         console.error(error);

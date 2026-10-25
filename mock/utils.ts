@@ -4,8 +4,8 @@
  * @param message 请求返回的信息
  * @param code 请求返回的标志code
  */
-export function resultSuccess(data: any, message = "success", code = 200) {
-	return { code, data, message };
+export function resultSuccess(data: unknown, message = "success", code = 200) {
+  return { code, data, message };
 }
 
 /**
@@ -14,8 +14,8 @@ export function resultSuccess(data: any, message = "success", code = 200) {
  * @param message 请求返回的信息
  * @param code 请求返回的标志code
  */
-export function resultError(data: any, message = "failed", code = 400) {
-	return { code, data, message };
+export function resultError(data: unknown, message = "failed", code = 400) {
+  return { code, data, message };
 }
 
 /**
@@ -24,14 +24,14 @@ export function resultError(data: any, message = "failed", code = 400) {
  * @param limit 一页多少条数据
  * @param list 总的数据列表
  */
-export function pageResultSuccess(page: number, limit: number, list: any[]) {
-	const pageData = pagination(page, limit, list);
-	return resultSuccess({
-		data: pageData,
-		total: list.length,
-		page,
-		limit,
-	});
+export function pageResultSuccess(page: number, limit: number, list: unknown[]) {
+  const pageData = pagination(page, limit, list);
+  return resultSuccess({
+    data: pageData,
+    total: list.length,
+    page,
+    limit,
+  });
 }
 
 /**
@@ -40,7 +40,7 @@ export function pageResultSuccess(page: number, limit: number, list: any[]) {
  * @param limit 一页多少条数据
  * @param list 总的数据列表
  */
-function pagination(page: number, limit: number, list: any[]) {
-	const offset = (page - 1) * limit;
-	return offset + limit >= list.length ? list.slice(offset, list.length) : list.slice(offset, offset + limit);
+function pagination(page: number, limit: number, list: unknown[]) {
+  const offset = (page - 1) * limit;
+  return offset + limit >= list.length ? list.slice(offset, list.length) : list.slice(offset, offset + limit);
 }

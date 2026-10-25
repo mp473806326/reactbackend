@@ -12,6 +12,7 @@ import {
   DatePicker,
   TimePicker,
   type FormInstance,
+  type GetRef,
 } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { fixedForwardRef } from "@/utils/fixedForwardRef";
@@ -28,7 +29,7 @@ interface RTableSearchProps<DataType = AnyObjectType> {
 
 export interface RTableSearchInstance {
   form: FormInstance;
-  element: HTMLFormElement | null;
+  element: HTMLElement | null;
   resetForm: () => void;
 }
 
@@ -166,7 +167,7 @@ const switchFields = (item: TableSearchs) => {
   }
 };
 
-export default fixedForwardRef(function RTableSearch<DataType>(
+const RTableSearch = fixedForwardRef(function RTableSearch<DataType>(
   {
     searchs,
     onSearch,
@@ -175,9 +176,9 @@ export default fixedForwardRef(function RTableSearch<DataType>(
     children,
     defaultExpand = false,
   }: RTableSearchProps<DataType>,
-  ref: any
+  ref: React.Ref<RTableSearchInstance>
 ) {
-  const formRef = useRef<any>();
+  const formRef = useRef<GetRef<typeof Form<DataType>>>(null);
   const [form] = Form.useForm();
   const [expand, setExpand] = useState(Boolean(defaultExpand));
   const needExpand = searchs.filter(item => !item.isHiden).length > 4;
@@ -227,8 +228,8 @@ export default fixedForwardRef(function RTableSearch<DataType>(
 
   // 监听组件高度变化
   useEffect(() => {
-    onHeightChange && onHeightChange(formRef.current?.nativeElement.offsetHeight);
-  }, [expand]);
+    onHeightChange && onHeightChange(formRef.current?.nativeElement?.offsetHeight ?? 0);
+  }, [expand, onHeightChange]);
 
   // 自定义暴露内容
   useImperativeHandle(
@@ -237,7 +238,7 @@ export default fixedForwardRef(function RTableSearch<DataType>(
       // 表单实例
       form: form,
       // 表单元素
-      element: formRef.current?.nativeElement,
+      element: formRef.current?.nativeElement ?? null,
       // 重置表单
       resetForm: () => form.resetFields(),
     }),
@@ -274,3 +275,5 @@ export default fixedForwardRef(function RTableSearch<DataType>(
     </Form>
   );
 });
+
+export default RTableSearch;

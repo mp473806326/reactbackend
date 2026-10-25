@@ -26,7 +26,7 @@ export interface RTableInstance {
   clearSelection: () => void;
 }
 
-export default fixedForwardRef(function RTable<DataType>(
+const RTable = fixedForwardRef(function RTable<DataType>(
   {
     className,
     columns,
@@ -44,7 +44,7 @@ export default fixedForwardRef(function RTable<DataType>(
     onRowSelect,
     onPageChange,
   }: RTableProps<DataType>,
-  ref: any
+  ref: React.Ref<RTableInstance>
 ) {
   // 表格多选配置
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -83,7 +83,7 @@ export default fixedForwardRef(function RTable<DataType>(
       draft.current = config.page;
       draft.pageSize = config.limit;
     });
-  }, [config]);
+  }, [config, setPagiOptions]);
 
   // 自定义暴露的内容
   useImperativeHandle(
@@ -102,7 +102,7 @@ export default fixedForwardRef(function RTable<DataType>(
         onRowSelect && onRowSelect([], []);
       },
     }),
-    [pagiOptions]
+    [pagiOptions, onRowSelect, setPagiOptions]
   );
 
   return (
@@ -134,3 +134,5 @@ export default fixedForwardRef(function RTable<DataType>(
     />
   );
 });
+
+export default RTable;

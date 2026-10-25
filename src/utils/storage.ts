@@ -1,15 +1,16 @@
 export const Local = {
   // 写入永久缓存
-  set(key: string, value: any) {
+  set(key: string, value: unknown) {
     window.localStorage.setItem(key, JSON.stringify(value));
   },
-  // 获取永久缓存
+  // 获取永久缓存，非 JSON 格式的旧数据按原字符串返回
   get(key: string) {
     const storageVal = window.localStorage.getItem(key);
-    if (storageVal) {
+    if (storageVal === null) return null;
+    try {
       return JSON.parse(storageVal);
-    } else {
-      return null;
+    } catch {
+      return storageVal;
     }
   },
   // 是否存在永久缓存

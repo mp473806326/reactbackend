@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- 全局通用宽松类型，供业务代码兜底使用 */
+
 // 声明 全局变量
 declare interface Window {
-  TMap: any;
+  TMap: unknown;
 }
 
 // 声明 数组

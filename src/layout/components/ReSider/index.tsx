@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, type MenuProps } from "antd";
 import { type ItemType } from "antd/es/menu/interface";
 import { useThemeStore } from "@/store/theme";
 import { findParentNode } from "@/utils/common";
-import { LockOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 
 const { Sider } = Layout;
@@ -24,13 +23,13 @@ export default function ReSider({ menuTree, collapsed, onCollapse }: ReSiderProp
 
   useEffect(() => {
     setDefaultKey(pathname);
-    let res = findParentNode(pathname, menuTree);
+    const res = findParentNode(pathname, menuTree);
     res ? setDefaultMenu([res.key]) : setDefaultMenu([]);
-  }, [pathname]);
+  }, [pathname, menuTree]);
 
-  const changeRoutes = (e: any) => {
-    setDefaultKey(e.key);
-    navigate(e.key);
+  const changeRoutes: MenuProps["onSelect"] = ({ key }) => {
+    setDefaultKey(key);
+    navigate(key);
   };
 
   const openChange = (keys: string[]) => {
@@ -54,10 +53,7 @@ export default function ReSider({ menuTree, collapsed, onCollapse }: ReSiderProp
       collapsed={collapsed}
       onBreakpoint={breakpoint}
     >
-      <div className={styles.title}>
-        {/* <LockOutlined /> */}
-        {!collapsed ? <span className="ml6">运维管理后台</span> : null}
-      </div>
+      <div className={styles.title}>{!collapsed ? <span className="ml6">运维管理后台</span> : null}</div>
       <Menu
         theme={isDark === "dark" ? "dark" : "light"}
         mode="inline"

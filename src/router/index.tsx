@@ -1,12 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { lazyLoader } from "./lazyLoader";
+import { lazyLoader } from "@/router/lazyLoader";
 import { cloneDeep } from "lodash";
 import LayoutContent from "@/layout/layout";
 import PlatformLogin from "@/views/PlatformLogin";
 
 // 获取 views 目录下的全部 .jsx .tsx 文件
-const viewsModules: Record<string, Function> = import.meta.glob("../views/**/*.{jsx,tsx}");
+const viewsModules = import.meta.glob<{ default: React.ComponentType }>("../views/**/*.{jsx,tsx}");
 
 // 根据 path 匹配文件，返回 import 函数
 const dynamicImport = (path: string) => {
@@ -28,11 +28,10 @@ const transformRoutes = (routes: PageRouteItem[]) => {
     .filter(item => item.meta.isRouter)
     .map(item => {
       const { path, element } = item;
-      console.log('element',element)
       const importFunc = dynamicImport(element as string);
       return {
         path: path as string,
-        element: importFunc ? lazyLoader(React.lazy(importFunc as any)) : <Navigate to="/404"></Navigate>,
+        element: importFunc ? lazyLoader(React.lazy(importFunc)) : <Navigate to="/404"></Navigate>,
       };
     });
 };

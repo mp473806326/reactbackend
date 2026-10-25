@@ -157,9 +157,9 @@ const switchFields = (item: TableModals) => {
   }
 };
 
-export default fixedForwardRef(function RTableModal<DataType>(
+const RTableModal = fixedForwardRef(function RTableModal<DataType>(
   { title, width = 1000, options, onSubmit, onValuesChange }: RTableModalProps<DataType>,
-  ref: any
+  ref: React.Ref<RTableModalInstance>
 ) {
   const [form] = Form.useForm();
   const [type, setType] = useState("add");
@@ -240,3 +240,5 @@ export default fixedForwardRef(function RTableModal<DataType>(
     </Modal>
   );
 });
+
+export default RTableModal;

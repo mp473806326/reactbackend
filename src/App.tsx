@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import { ConfigProvider, theme, App as AntdApp } from "antd";
 import { HashRouter, useRoutes } from "react-router-dom";
-import { useThemeStore } from "./store/theme";
+import { useThemeStore } from "@/store/theme";
 import { useRouteStore } from "@/store/route";
-import getSystemRoutes from "./router/index";
-import AuthRoutes from "./router/authRoutes";
-import AntdGlobal from "./utils/AntdGlobal";
+import getSystemRoutes from "@/router/index";
+import AuthRoutes from "@/router/authRoutes";
+import AntdGlobal from "@/utils/AntdGlobal";
 import zhCN from "antd/locale/zh_CN";
 import "@/styles/global.scss";
 

@@ -8,12 +8,12 @@ let AdMessage: MessageInstance;
 let AdNotification: NotificationInstance;
 let AdModal: Omit<ModalStaticFunctions, "warn">;
 
-export default () => {
+export default function AntdGlobal() {
   const staticFunction = App.useApp();
   AdMessage = staticFunction.message;
   AdNotification = staticFunction.notification;
   AdModal = staticFunction.modal;
   return null;
-};
+}
 
 export { AdMessage, AdNotification, AdModal };

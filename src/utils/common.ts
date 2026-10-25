@@ -7,7 +7,7 @@ export function formatNum(num: number | string) {
 }
 
 // 查找路由父节点
-export function searchRoute(path: string, routes: any = []): any {
+export function searchRoute(path: string, routes: AnyArrayType = []): AnyObjectType | null {
   for (const item of routes) {
     if (item.key === path) return item;
     if (item.children) {
@@ -19,11 +19,11 @@ export function searchRoute(path: string, routes: any = []): any {
 }
 
 // 查找父节点没有就返回当前节点
-export function findParentNode(key: any, menus: any) {
+export function findParentNode(key: React.Key, menus: AnyArrayType) {
   for (const item of menus) {
     if (item.children) {
       // 检查当前节点的子节点中是否有目标键值
-      const childMatch = item.children.find((child: any) => child.key === key);
+      const childMatch = item.children.find((child: AnyObjectType) => child.key === key);
       if (childMatch) {
         return item; // 返回当前节点，即父节点
       } else {
@@ -54,13 +54,13 @@ export function findParentNode(key: any, menus: any) {
  * new Error()    ->  "Error"
  * new RegExp()   ->  "RegExp"
  */
-export function whoami(val: any) {
+export function whoami(val: unknown) {
   return Object.prototype.toString.call(val).slice(8, -1);
 }
 
 // 格式化错误信息
-export function formatErrMsg(err: any) {
-  return whoami(err) === "String" ? err : JSON.stringify(err);
+export function formatErrMsg(err: unknown) {
+  return typeof err === "string" ? err : JSON.stringify(err);
 }
 
 // 删除对象中的空值
@@ -91,11 +91,11 @@ export function constructTree(
   // 对源数据深度克隆
   const cloneData = cloneDeep(data);
   // 循环所有项
-  const treeData = cloneData.filter((father: any) => {
+  const treeData = cloneData.filter((father: AnyObjectType) => {
     // 构造路由树时，如果存在重定向且为 noRedirect，则删除重定向属性
     // if (father.redirect && father.redirect === 'noRedirect') delete father.redirect
     // 返回每一项的子级数组
-    const branchArr = cloneData.filter((child: any) => {
+    const branchArr = cloneData.filter((child: AnyObjectType) => {
       return child[parentId] === father.id;
     });
     // 如果存在子级，则给它们排序并连接到父级的 children 属性上

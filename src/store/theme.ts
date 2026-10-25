@@ -1,12 +1,13 @@
 import { create } from "zustand";
+import { Local } from "@/utils/storage";
 
 interface ThemeStore {
-  isDark: String;
+  isDark: string;
   updateTheme: (isDark: string) => void;
 }
 
 export const useThemeStore = create<ThemeStore>(set => ({
-  isDark: localStorage.getItem("isDark") || "light",
+  isDark: Local.get("isDark") || "light",
   updateTheme: (isDark: string) => {
     set({ isDark });
   },

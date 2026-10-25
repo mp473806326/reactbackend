@@ -1,6 +1,7 @@
 import { Switch } from "antd";
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/theme";
+import { Local } from "@/utils/storage";
 import { HappyProvider } from "@ant-design/happy-work-theme";
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { SwitchChangeEventHandler } from "antd/es/switch";
@@ -12,10 +13,9 @@ function ThemeSwitch() {
     isDark === "dark"
       ? document.documentElement.classList.add("dark")
       : document.documentElement.classList.remove("dark");
-  }, []);
-  const handleThemeChange: SwitchChangeEventHandler = (checked: boolean, $event: any) => {
-    const x = $event.clientX;
-    const y = $event.clientY;
+  }, [isDark]);
+  const handleThemeChange: SwitchChangeEventHandler = (checked, $event) => {
+    const { clientX: x, clientY: y } = $event as React.MouseEvent<HTMLButtonElement>;
     const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     const theme = checked ? "dark" : "light";
 
@@ -25,7 +25,7 @@ function ThemeSwitch() {
       } else {
         document.documentElement.classList.remove("dark");
       }
-      localStorage.setItem("isDark", theme);
+      Local.set("isDark", theme);
       updateTheme(theme);
     };
 
