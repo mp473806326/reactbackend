@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 
 export default function NotPermissions() {
   const navigate = useNavigate();
-  const handleClick = () => navigate("/home");
+  const handleClick = () => navigate("/groupSpace");
 
   return (
     <div className={styles.container}>

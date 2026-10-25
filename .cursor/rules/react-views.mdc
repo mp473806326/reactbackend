@@ -1,0 +1,35 @@
+---
+description: 页面与组件编写规范（antd、表格页、路由注册）
+globs: src/**/*.tsx
+alwaysApply: false
+---
+
+# 页面与组件规范
+
+- 只写函数组件，页面使用 `export default function Xxx() {}`
+- 样式使用同目录 `index.module.scss`（CSS Modules），不写行内大样式对象
+- 消息与弹窗使用 `@/utils/AntdGlobal` 的 `AdMessage` / `AdModal`，不要直接用 antd 的静态 `message` / `Modal.confirm`（拿不到主题上下文）
+- 复杂对象/数组状态用 `useImmer`，通过 `draft` 修改
+
+## 表格页
+
+参考 `src/views/Tables/UserTable.tsx`，组合使用 `RTableSearch` + `RTable` + `RTableModal`：
+
+- 搜索配置 `TableSearchs[]`、弹窗配置 `TableModals[]`、`TableConfig` 声明在组件外部
+- 分页和查询参数变化时通过 `useEffect` 依赖 `[page, limit, params]` 重新请求
+- 请求失败分支必须把 `loading` 复位：
+
+```tsx
+// ❌ 出错后 loading 一直为 true
+try { ... draft.loading = false; } catch (e) { AdMessage.error("请求失败"); }
+
+// ✅
+try { ... } catch (e) { AdMessage.error("表格数据请求失败"); }
+finally { setTableConfig(draft => { draft.loading = false; }); }
+```
+
+## 新增页面需要同时注册路由
+
+1. 在 `src/views/<模块>/` 下创建页面
+2. 在 `src/router/frontEnd.ts` 添加路由项：`path` 为访问路径，`element` 为相对 `views` 的文件路径（如 `"/Tables/UserTable"`），`meta.isRouter: true`
+3. 菜单数据由 `mock/route.mock.ts` 读取 `frontEnd.ts` 返回，无需另外改 mock

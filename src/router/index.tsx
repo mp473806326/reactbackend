@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 import { lazyLoader } from "./lazyLoader";
 import { cloneDeep } from "lodash";
 import LayoutContent from "@/layout/layout";
-import Login from "@/views/Login";
+import PlatformLogin from "@/views/PlatformLogin";
 
 // 获取 views 目录下的全部 .jsx .tsx 文件
 const viewsModules: Record<string, Function> = import.meta.glob("../views/**/*.{jsx,tsx}");
@@ -42,15 +42,19 @@ export default function getSystemRoutes(pageRoutes: PageRouteItem[]) {
   return [
     {
       path: "/",
-      element: <Navigate to="/login" />,
+      element: <Navigate to="/platformLogin" />,
     },
     {
-      path: "/login",
-      element: <Login />,
+      path: "/platformLogin",
+      element: <PlatformLogin />,
     },
     {
       element: <LayoutContent />,
-      children: [...transformRoutes(pageRoutes)],
+      children: [
+        ...transformRoutes(pageRoutes),
+        { path: "/403", element: lazyLoader(React.lazy(() => import("@/views/Error/403"))) },
+        { path: "/404", element: lazyLoader(React.lazy(() => import("@/views/Error/404"))) },
+      ],
     },
     {
       path: "*",

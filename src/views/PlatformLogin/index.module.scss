@@ -1,0 +1,71 @@
+/* 对应 LoginFormPage 根节点，style={{ display: "block", minHeight: "100vh" }} */
+.page {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* 对应 LoginFormPage-container + containerStyle */
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(calc(100vw - 48px), 502px);
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
+  margin: 0;
+  padding: 32px;
+  overflow-y: auto;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--platform-admin-color-border, #e4e6eb);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  background: var(--platform-admin-color-bg-container, #ffffff);
+  box-shadow: var(--platform-admin-box-shadow-secondary, 0 2px 6px 0 rgba(0, 0, 0, 0.08));
+}
+
+.top {
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  margin-inline-end: 16px;
+  vertical-align: top;
+}
+
+.title {
+  position: relative;
+  color: var(--platform-admin-color-text-heading, rgba(51, 56, 66, 0.88));
+  font-weight: 600;
+  font-size: 33px;
+}
+
+.desc {
+  margin-block: 12px 40px;
+  color: var(--platform-admin-color-text-secondary, rgba(51, 56, 66, 0.65));
+  font-size: var(--platform-admin-font-size, 12px);
+}
+
+/* 对应 LoginFormPage-main + mainStyle */
+.main {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.other {
+  margin-block-start: 24px;
+  line-height: 22px;
+  text-align: start;
+}

@@ -4,7 +4,11 @@ import { Local } from "@/utils/storage";
 import { formatErrMsg } from "@/utils/common";
 
 // 白名单，不需要 token 的接口
-const whiteList = ["/mock/login/"];
+const whiteList = [
+  "/mock/platform/login/password/",
+  "/mock/platform/login/otp/send/",
+  "/mock/platform/login/otp/verify/",
+];
 
 // 退出登录并强制刷新页面
 function forceLogout() {

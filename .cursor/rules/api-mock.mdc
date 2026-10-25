@@ -1,0 +1,33 @@
+---
+description: 接口函数与 Mock 接口编写规范
+globs: src/api/**/*.ts,mock/**/*.ts,src/utils/request.ts
+alwaysApply: false
+---
+
+# 接口与 Mock 规范
+
+## 接口函数（src/api）
+
+- 统一使用 `@/utils/request` 的实例，不要直接 `import axios`
+- 返回类型统一为 `Promise<HttpResultType>`，每个函数上方写中文注释
+- 新文件需在 `src/api/index.ts` 中 `export * from "./xxx"`
+
+```ts
+// 获取用户列表
+export function getUsers(params: AnyObjectType): Promise<HttpResultType> {
+  return request.get("/mock/users/", { params });
+}
+```
+
+- 无需 token 的接口要加进 `request.ts` 的 `whiteList`
+- 调用方按 `const { code, data } = await xxx()` 判断 `code !== 200`
+
+## Mock（mock/*.mock.ts）
+
+- 使用 `defineMock([...])` 默认导出，URL 以 `/mock/` 开头、以 `/` 结尾，与 `src/api` 保持一致
+- 设置 `delay`（如 `[50, 150]`）模拟网络延迟
+- 返回值必须使用 `mock/utils.ts` 的工具函数，保证结构为 `{ code, data, message }`：
+  - 普通数据：`resultSuccess(data, "提示信息")`
+  - 分页列表：`pageResultSuccess(Number(page), Number(limit), list)`，返回 `{ data, total, page, limit }`
+  - 业务失败：`resultError(null, "原因")`
+- query 参数是字符串，分页参数要先 `Number()` 转换

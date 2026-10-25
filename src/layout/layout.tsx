@@ -1,6 +1,19 @@
 import { useState, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { Layout, type MenuProps } from "antd";
+import {
+  ApartmentOutlined,
+  AppstoreAddOutlined,
+  AppstoreOutlined,
+  DashboardOutlined,
+  FileTextOutlined,
+  SafetyOutlined,
+  SettingOutlined,
+  TagOutlined,
+  TagsOutlined,
+  UserOutlined,
+  UserSwitchOutlined,
+} from "@ant-design/icons";
 import { useRouteStore } from "@/store/route";
 import { useUserInfoStore } from "@/store/userInfo";
 import { constructTree } from "@/utils/common";
@@ -12,6 +25,21 @@ import styles from "./layout.module.scss";
 
 const { Content } = Layout;
 
+// 菜单可用的 antd 图标，未匹配的图标名按 SvgIcon 处理
+const antdIcons: Record<string, React.ReactNode> = {
+  ApartmentOutlined: <ApartmentOutlined />,
+  AppstoreAddOutlined: <AppstoreAddOutlined />,
+  AppstoreOutlined: <AppstoreOutlined />,
+  DashboardOutlined: <DashboardOutlined />,
+  FileTextOutlined: <FileTextOutlined />,
+  SafetyOutlined: <SafetyOutlined />,
+  SettingOutlined: <SettingOutlined />,
+  TagOutlined: <TagOutlined />,
+  TagsOutlined: <TagsOutlined />,
+  UserOutlined: <UserOutlined />,
+  UserSwitchOutlined: <UserSwitchOutlined />,
+};
+
 // 菜单数据处理
 type MenuItem = Required<MenuProps>["items"][number];
 function getMenuItem(
@@ -21,7 +49,7 @@ function getMenuItem(
   children?: MenuItem[],
   type?: "group"
 ): MenuItem {
-  const icon = iconName ? <SvgIcon name={iconName} size="1.2em" /> : null;
+  const icon = iconName ? antdIcons[iconName] ?? <SvgIcon name={iconName} size="1.2em" /> : null;
   return { key, icon, children, label, type } as MenuItem;
 }
 function getMenuTree(tree: AnyArrayType) {

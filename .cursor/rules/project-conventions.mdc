@@ -1,0 +1,30 @@
+---
+description: 项目整体技术栈、目录结构与代码风格约定
+alwaysApply: true
+---
+
+# 项目约定
+
+React 18 + TypeScript + Vite 后台管理模板，UI 使用 antd 5，状态管理使用 zustand，请求使用 axios，开发环境数据来自 `vite-plugin-mock-dev-server` + mockjs。
+
+## 目录
+
+- `src/views/<模块>/`：页面，路由按 `element` 路径动态匹配（见 `src/router/index.tsx`）
+- `src/components/`：通用组件，以 `R` 前缀命名（`RButton`、`RTable`）
+- `src/api/`：接口函数，按业务拆文件，并在 `src/api/index.ts` 中 `export *`
+- `src/store/`：zustand store，命名 `useXxxStore`
+- `src/types/*.d.ts`：全局类型（`AnyObjectType`、`HttpResultType`、`TableConfig` 等），无需 import
+- `mock/*.mock.ts`：Mock 接口
+
+## 代码风格（与 `.prettierrc.cjs` 一致）
+
+- 双引号、带分号、2 空格缩进、单行最多 110 字符、`trailingComma: "es5"`
+- 单参数箭头函数不加括号：`item => item.id`
+- 一律用 `@/` 别名导入，不写 `../../`
+- 注释使用中文，写在函数/逻辑块上方，如 `// 获取表格数据`
+
+## 禁止
+
+- 不要新增 UI 库或状态库，优先使用已有的 antd、ahooks、lodash、dayjs
+- 不要直接操作 `localStorage`，统一使用 `@/utils/storage` 的 `Local`
+- 不要提交调试用的 `console.log`（构建时会被移除，但会污染代码）

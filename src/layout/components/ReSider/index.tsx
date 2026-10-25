@@ -4,7 +4,7 @@ import { Layout, Menu } from "antd";
 import { type ItemType } from "antd/es/menu/interface";
 import { useThemeStore } from "@/store/theme";
 import { findParentNode } from "@/utils/common";
-import SvgIcon from "@/components/SvgIcon";
+import { LockOutlined } from "@ant-design/icons";
 import styles from "./index.module.scss";
 
 const { Sider } = Layout;
@@ -19,7 +19,7 @@ export default function ReSider({ menuTree, collapsed, onCollapse }: ReSiderProp
 
   const isDark = useThemeStore(state => state.isDark);
   const { pathname } = useLocation();
-  const [defaultKey, setDefaultKey] = useState("/home");
+  const [defaultKey, setDefaultKey] = useState("/groupSpace");
   const [defaultMenu, setDefaultMenu] = useState<string[]>([]);
 
   useEffect(() => {
@@ -55,8 +55,8 @@ export default function ReSider({ menuTree, collapsed, onCollapse }: ReSiderProp
       onBreakpoint={breakpoint}
     >
       <div className={styles.title}>
-        <SvgIcon name="logo" size="1.1em" />
-        {!collapsed ? <span className="ml6">React PC Template</span> : null}
+        {/* <LockOutlined /> */}
+        {!collapsed ? <span className="ml6">运维管理后台</span> : null}
       </div>
       <Menu
         theme={isDark === "dark" ? "dark" : "light"}
